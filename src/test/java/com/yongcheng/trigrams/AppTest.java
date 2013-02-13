@@ -9,7 +9,8 @@ public class AppTest {
 	@Test
 	public void test_that_app_generate_a_right_article_using_simpleTestData_txt() {
 
-		String path = "C:\\sandbox\\git\\Java\\trigrams\\src\\main\\java\\com\\yongcheng\\trigrams\\simpleTestData.txt";
+		String path = AppTest.class.getResource("/simpleTestData.txt")
+				.getPath();
 		System.out.println(this.underTest.generateArticle(path));
 
 	}
@@ -17,7 +18,8 @@ public class AppTest {
 	@Test
 	public void test_that_app_generate_a_right_article_using_TheVoiceInSingingByEmmaSeiler_txt() {
 
-		String path = "C:\\sandbox\\git\\Java\\trigrams\\src\\main\\java\\com\\yongcheng\\trigrams\\TheVoiceInSingingByEmmaSeiler.txt";
+		String path = AppTest.class.getResource(
+				"/TheVoiceInSingingByEmmaSeiler.txt").getPath();
 		System.out.println(this.underTest.generateArticle(path));
 	}
 }
