@@ -37,7 +37,7 @@ public class PairWordsProcessorImplTest {
 
 		// --Assert
 		Assert.assertEquals(
-				"{I may=[I], I wish=[I], wish I=[may, might], may I=[wish]}",
+				"{I wish=[I], wish I=[may, might], I may=[I], may I=[wish]}",
 				this.underTest.getData().toString());
 	}
 
@@ -68,14 +68,14 @@ public class PairWordsProcessorImplTest {
 	}
 
 	@Test
-	public void test_that_getRight_return_right_when_the_left_is_wish_I_in_10_times() {
+	public void test_that_getRight_return_right_when_the_left_is_wish_I_in_20_times() {
 		// --Arrange
 		this.underTest.process();
 
 		// --Action
 		String right = null;
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 20; i++) {
 			right = this.underTest.getRight("wish I");
 			if (right.equals("may")) {
 				break;
@@ -88,14 +88,14 @@ public class PairWordsProcessorImplTest {
 	}
 
 	@Test
-	public void test_that_getRight_return_might_when_the_left_is_wish_I_in_10_times() {
+	public void test_that_getRight_return_might_when_the_left_is_wish_I_in_20_times() {
 		// --Arrange
 		this.underTest.process();
 
 		// --Action
 		String right = null;
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 20; i++) {
 			right = this.underTest.getRight("wish I");
 			if (right.equals("might")) {
 				break;

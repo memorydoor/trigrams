@@ -1,6 +1,7 @@
 package com.yongcheng.trigrams;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +23,7 @@ public class PairWordsProcessorImpl implements IPairWordsProcessor {
 	 * @see com.yongcheng.trigrams.IPairWordsProcessor#process()
 	 */
 	public void process() {
-		this.data = new HashMap<String, LinkedHashSet<String>>();
+		this.data = new LinkedHashMap<String, LinkedHashSet<String>>();
 
 		Pair pair = null;
 
@@ -42,7 +43,7 @@ public class PairWordsProcessorImpl implements IPairWordsProcessor {
 		return this.data;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public String getRandomLeft() {
 		return (String) getRandomElementFromSet((Set) this.data.keySet());
 	}

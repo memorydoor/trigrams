@@ -66,4 +66,9 @@ public class Pair implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Pair [left=" + left + ", rigth=" + rigth + "]";
+	}
+
 }

@@ -3,6 +3,7 @@ package com.yongcheng.trigrams;
 public class NextPairDataSourceImpl implements IDataSource<Pair> {
 
 	public final static String NEW_PARAGRAPH = "\r";
+	public final static String NEW_PARAGRAPH_FLAG = "[#NEW_PARAGRAPH#]";
 	public final static String SPACE = " ";
 
 	private IDataSource<String> nextLineDataSource;
@@ -41,14 +42,14 @@ public class NextPairDataSourceImpl implements IDataSource<Pair> {
 			if (this.currentLine.trim().length() == 0) {
 				return new Pair(this.wordsInPreviousLine[this.index] + " "
 						+ this.wordsInPreviousLine[this.index + 1],
-						this.NEW_PARAGRAPH);
+						this.NEW_PARAGRAPH_FLAG);
 			}
 
 			// --the new Paragraph started
 			if (this.previousLine != null
 					&& this.previousLine.trim().length() == 0) {
 				return new Pair(this.wordsInPreviousPreviousLine[this.index]
-						+ " " + this.NEW_PARAGRAPH,
+						+ " " + this.NEW_PARAGRAPH_FLAG,
 						this.wordsInCurrentLine[this.index]);
 			}
 
