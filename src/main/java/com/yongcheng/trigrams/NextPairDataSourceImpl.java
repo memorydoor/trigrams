@@ -3,7 +3,7 @@ package com.yongcheng.trigrams;
 public class NextPairDataSourceImpl implements IDataSource<Pair> {
 
 	public final static String NEW_PARAGRAPH = "\r";
-	public final static String NEW_PARAGRAPH_FLAG = "[#NEW_PARAGRAPH#]";
+	public final static String NEW_PARAGRAPH_FLAG = "NEW_PARAGRAPH";
 	public final static String SPACE = " ";
 
 	private IDataSource<String> nextLineDataSource;
@@ -26,15 +26,44 @@ public class NextPairDataSourceImpl implements IDataSource<Pair> {
 
 	public Pair getNext() {
 
-		if (this.wordsInCurrentLine == null || this.index == this.length - 2) {
+		if (this.wordsInCurrentLine == null
+				|| this.index == this.wordsInCurrentLine.length - 2
+				|| wordsInCurrentLine.length == 1) {
 			this.wordsInPreviousPreviousLine = this.wordsInPreviousLine;
 			this.previousPreviousLine = this.previousLine;
 			this.wordsInPreviousLine = this.wordsInCurrentLine;
 			this.previousLine = this.currentLine;
 			this.currentLine = this.nextLineDataSource.getNext();
 
+			if (currentLine != null) {
+				this.wordsInCurrentLine = currentLine.trim().length() > 0 ? this.currentLine
+						.trim().split(" ")
+						: new String[] { NEW_PARAGRAPH_FLAG };
+			}
+
 			// --the end of the file
-			if (this.currentLine == null) {
+			if (this.currentLine == null && this.previousLine != null
+					&& this.wordsInPreviousLine.length > 1) {
+				return new Pair(
+						this.wordsInPreviousLine[wordsInPreviousLine.length - 2]
+								+ " "
+								+ this.wordsInPreviousLine[wordsInPreviousLine.length - 1],
+						null);
+			} else if (this.currentLine == null && this.previousLine != null
+					&& this.wordsInPreviousLine.length == 1) {
+				return new Pair(
+						this.wordsInPreviousPreviousLine[wordsInPreviousPreviousLine.length - 1]
+								+ " "
+								+ this.wordsInPreviousLine[wordsInPreviousLine.length - 1],
+						null);
+			} else if (this.currentLine != null && this.previousLine != null
+					&& this.wordsInPreviousLine.length == 1) {
+				return new Pair(
+						this.wordsInPreviousPreviousLine[wordsInPreviousPreviousLine.length - 1]
+								+ " "
+								+ this.wordsInPreviousLine[wordsInPreviousLine.length - 1],
+						this.wordsInCurrentLine[0]);
+			} else if (this.currentLine == null && this.previousLine == null) {
 				return null;
 			}
 
@@ -53,22 +82,23 @@ public class NextPairDataSourceImpl implements IDataSource<Pair> {
 						this.wordsInCurrentLine[this.index]);
 			}
 
-			this.wordsInCurrentLine = this.currentLine.split(" ");
 			this.index = -1;
 			this.length = this.wordsInCurrentLine.length;
 		}
 		this.index++;
 
 		// --only have one word in current line
-		if (this.length == 1) {
-			return new Pair(this.wordsInCurrentLine[this.index] + " "
-					+ this.wordsInPreviousLine[this.index + 1],
-					this.wordsInCurrentLine[this.index]);
+		if (this.wordsInCurrentLine.length == 1) {
+			return new Pair(
+					this.wordsInPreviousLine[wordsInPreviousLine.length - 2]
+							+ " "
+							+ this.wordsInPreviousLine[wordsInPreviousLine.length - 1],
+					this.wordsInCurrentLine[0]);
 		}
 
+		// --the current line processed completely, need to read a new line
 		if (this.index == this.length - 2) {
-			return new Pair(this.wordsInCurrentLine[this.index] + " "
-					+ this.wordsInCurrentLine[this.index + 1], null);
+			return getNext();
 		}
 
 		return new Pair(this.wordsInCurrentLine[this.index] + " "
