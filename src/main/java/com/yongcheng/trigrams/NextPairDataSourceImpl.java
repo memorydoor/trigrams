@@ -3,6 +3,7 @@ package com.yongcheng.trigrams;
 public class NextPairDataSourceImpl implements IDataSource<Pair> {
 
 	public final static String NEW_PARAGRAPH = "\r";
+	public final static String SPACE = " ";
 
 	private IDataSource<String> nextLineDataSource;
 

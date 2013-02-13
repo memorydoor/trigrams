@@ -14,8 +14,10 @@ public class App {
 	}
 
 	public String generateArticle(String path) {
+
 		IDataSource<Pair> nextWordDataSouce = new NextPairDataSourceImpl(
-				new FileRawLineDataSourceImpl(path));
+				new FileRawLineDataSourceWrapperImpl(
+						new FileRawLineDataSourceImpl(path)));
 		IPairWordsProcessor pairWordsProcessor = new PairWordsProcessorImpl(
 				nextWordDataSouce);
 

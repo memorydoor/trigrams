@@ -106,21 +106,4 @@ public class NextPairDataSourceImplTest {
 		Assert.assertEquals(null, result);
 	}
 
-	@Test
-	public void test_that_getNext_return_a_completed_pair_when_encountering_three_simple_word_line() {
-
-		// --Arrange
-		when(this.nextLineDataSource.getNext()).thenReturn("I")
-				.thenReturn("wish").thenReturn("I").thenReturn(null);
-
-		// --Action
-		Pair result = null;
-		for (int i = 0; i < 8; i++) {
-			result = this.underTest.getNext();
-		}
-
-		// --Assert
-
-		Assert.assertEquals(new Pair("I wish", "I"), result);
-	}
 }
