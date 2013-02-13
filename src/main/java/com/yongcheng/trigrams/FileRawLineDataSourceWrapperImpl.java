@@ -33,7 +33,7 @@ public class FileRawLineDataSourceWrapperImpl implements IDataSource<String> {
 					&& !NextPairDataSourceImpl.NEW_PARAGRAPH.equals(lastWord)) {
 				numberOfWords++;
 				lastWord = NextPairDataSourceImpl.NEW_PARAGRAPH;
-				sb.append(NextPairDataSourceImpl.NEW_PARAGRAPH);
+				sb.append(NextPairDataSourceImpl.NEW_PARAGRAPH_FLAG);
 				sb.append(NextPairDataSourceImpl.SPACE);
 			} else {
 				for (String s : nextLine.split(NextPairDataSourceImpl.SPACE)) {
