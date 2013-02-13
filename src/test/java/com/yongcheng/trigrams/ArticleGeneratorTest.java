@@ -37,4 +37,30 @@ public class ArticleGeneratorTest {
 				this.underTest.getArticle());
 
 	}
+
+	@Test
+	//TODO the space around the start and end of lines need to trim
+	public void test_that_generate_method_generated_a_right_report_with_paragraph() {
+
+		// --Arrange
+		when(this.pairWordsProcessor.getRandomLeft()).thenReturn("I may");
+		when(this.pairWordsProcessor.getRight("I may")).thenReturn(
+				NextPairDataSourceImpl.NEW_PARAGRAPH_FLAG);
+		when(
+				this.pairWordsProcessor.getRight("may "
+						+ NextPairDataSourceImpl.NEW_PARAGRAPH_FLAG))
+				.thenReturn("I");
+		when(
+				this.pairWordsProcessor
+						.getRight(NextPairDataSourceImpl.NEW_PARAGRAPH_FLAG
+								+ " I")).thenReturn(null);
+
+		// --Action
+		this.underTest.generate();
+
+		// --Assert
+		Assert.assertEquals("I may\rI", this.underTest.getArticle());
+
+	}
+
 }
